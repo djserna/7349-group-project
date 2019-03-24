@@ -71,8 +71,63 @@ INSERT INTO `entitytype` VALUES (1,'Farm'),(2,'Manufacturer'),(3,'Company');
 UNLOCK TABLES;
 
 --
+-- Table structure for table `transaction`
+--
+
+DROP TABLE IF EXISTS `transaction`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8mb4 ;
+CREATE TABLE `transaction` (
+  `TransactionId` int(11) NOT NULL AUTO_INCREMENT,
+  `block_index` int(11) NOT NULL,
+  `proof` int(11) NOT NULL,
+  `previous_hash` varchar(255) NOT NULL,
+  `transactions` varchar(10000) DEFAULT NULL,
+  PRIMARY KEY (`TransactionId`)
+) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `transaction`
+--
+
+LOCK TABLES `transaction` WRITE;
+/*!40000 ALTER TABLE `transaction` DISABLE KEYS */;
+INSERT INTO `transaction` VALUES (26,2,14,'d7b87536a1178fad93ef385a1fd5cad93297e5cb707afae20fb729f531c8d927','[{\'entityId\': \'0\', \'entityName\': \'TestManufacturer\', \'certificate\': \'BBB\', \'entityType\': \'Manufacturer\', \'downstreamEntityId\': \'3\'}]'),(31,1,7,'0ceeeee67538e078bd25ac938cb1052cb6491780b2d6b826bfc664cfb62c087d','[{\'entityId\': \'0\', \'entityName\': \'TestFarm\', \'certificate\': \'AAA\', \'entityType\': \'Farm\', \'downstreamEntityId\': \'2\'}]'),(32,1,7,'969455d6a647ed4bcd749d56114721890e823815c607a297fcba30d30e871c41','[{\'entityId\': \'0\', \'entityName\': \'TestFarm\', \'certificate\': \'AAA\', \'entityType\': \'Farm\', \'downstreamEntityId\': \'2\'}]'),(33,2,14,'28f18ab072ecbd92a6bc399614f7821f0fb9d2e105711cbff1a5630eada07d13','[{\'entityId\': \'0\', \'entityName\': \'TestManufacturer\', \'certificate\': \'BBB\', \'entityType\': \'Manufacturer\', \'downstreamEntityId\': \'3\'}]'),(34,1,7,'08b4c4c6841f96a46cdcbd3d8000a7d356f7e5f8dbabe94f8c39736ec3c91b49','[{\'entityId\': \'0\', \'entityName\': \'TestFarm\', \'certificate\': \'AAA\', \'entityType\': \'Farm\', \'downstreamEntityId\': \'2\'}]'),(35,2,14,'148ae508dfc9e165736e89a1b46902f63292909d212ed172feff36f29a34464d','[{\'entityId\': \'0\', \'entityName\': \'TestManufacturer\', \'certificate\': \'BBB\', \'entityType\': \'Manufacturer\', \'downstreamEntityId\': \'3\'}]'),(36,1,7,'7d0de4f6b0fe222f135baff0a328afb2387025f40741092f4f96870ce380b958','[{\'entityId\': \'0\', \'entityName\': \'TestFarm\', \'certificate\': \'AAA\', \'entityType\': \'Farm\', \'downstreamEntityId\': \'2\'}]'),(37,2,14,'6540949ec51ac63e052ff469e685a8cad8d8603d5d0612549ab7cb1c0a1a57ff','[{\'entityId\': \'0\', \'entityName\': \'TestManufacturer\', \'certificate\': \'BBB\', \'entityType\': \'Manufacturer\', \'downstreamEntityId\': \'3\'}]');
+/*!40000 ALTER TABLE `transaction` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Dumping routines for database 'blockchain'
 --
+/*!50003 DROP PROCEDURE IF EXISTS `insert_transaction` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `insert_transaction`(IN blockIndex int, IN proof int, IN previous_hash varchar(255), IN transactions varchar(10000))
+BEGIN
+	INSERT INTO `transaction`
+	(`index`,
+	`proof`,
+	`previous_hash`,
+	`transactions`)
+	VALUES
+	(blockIndex,
+	proof,
+	previous_hash,
+	transactions);
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -83,4 +138,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-03-20 17:22:35
+-- Dump completed on 2019-03-23 20:02:18

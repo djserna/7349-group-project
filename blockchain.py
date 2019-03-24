@@ -1,6 +1,6 @@
 import time
 import hashlib
-
+import MySQLdb
 
 class Block(object):
 
@@ -138,11 +138,27 @@ class BlockChain(object):
         last_hash = last_block.get_block_hash
         block = self.create_new_block(proof, last_hash)
 
+        self.writetodb(block.index,block.proof,block.previous_hash,block.transactions)
+
         return vars(block)  # Return a native Dict type object
 
     def create_node(self, address):
         self.nodes.add(address)
         return True
+
+    @staticmethod
+    def writetodb(index, proof, previous_hash, transactions):
+        try:
+            connection = MySQLdb.Connection(host='localhost', user='root', passwd='@g9gtP&O2912', db='blockchain')
+            cursor = connection.cursor()
+            sql = """INSERT INTO transaction (block_index,proof,previous_hash,transactions) VALUES (%d,%d,'%s',"%s")""" % (index,proof,previous_hash,transactions)
+            cursor.execute(sql)
+            connection.commit()
+        except Exception as e:
+            print("Error [%r]" % (e) )
+        finally:
+            if cursor:
+                cursor.close() 
 
     @staticmethod
     def get_block_object_from_block_data(block_data):
